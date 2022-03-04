@@ -1,17 +1,21 @@
 import json
+import bisect # 透過二元搜尋的方式，插入元素到串列之中
 import mysql.connector
-import bisect
+import sys 
+sys.path.append(".") 
+import sqlConnection as cnx
 
-# 連接 MySQL/MariaDB 資料庫
-mydb = mysql.connector.connect(
-    host = "127.0.0.1",
-    database = "we_travel",
-    user = "root",
-    password = "0117"
-)
 
-# print(mydb)            #確認連線成功
-cursor = mydb.cursor() # 開啟游標
+# # 連接 MySQL 資料庫
+# mydb = mysql.connector.connect(
+#     host = "127.0.0.1",
+#     database = "we_travel",
+#     user = "root",
+#     password = ""       
+# )
+
+# # print(mydb)            #確認連線成功
+# cursor = mydb.cursor() # 開啟游標
 
 with open("./data/taipei-attractions.json", encoding='utf-8') as f:
     data = json.load(f)
@@ -43,15 +47,22 @@ with open("./data/taipei-attractions.json", encoding='utf-8') as f:
         # print(image)
 
         # print((attraId, stitle, CAT2, xbody, address, info, MRT, latitude, longitude, image))
-
-        #新增至資料庫
-        sql = "INSERT INTO attraction(id, name, category, description, address, transport, mrt, latitude, longitude, images) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-        val = (attraId, stitle, CAT2, xbody, address, info, MRT, latitude, longitude, image)
-        cursor.execute(sql, val)
-        mydb.commit()
-        print(cursor.rowcount, "新增資料成功")
+        try:
+            # 連接 MySQL POOL 資料庫
+            mydb = cnx.pool.get_connection()
+            cursor = mydb.cursor() # 開啟游標
+            #新增至資料庫
+            sql = "INSERT INTO attraction(id, name, category, description, address, transport, mrt, latitude, longitude, images) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            val = (attraId, stitle, CAT2, xbody, address, info, MRT, latitude, longitude, image)
+            cursor.execute(sql, val)
+            mydb.commit()
+            print(cursor.rowcount, "新增資料成功")
+        except:
+            print("Error")
+        finally:
+            # 關閉游標與資料庫連線
+            cursor.close()
+            mydb.close()
         
 
-# 關閉游標與資料庫連線
-cursor.close()
-mydb.close()
+

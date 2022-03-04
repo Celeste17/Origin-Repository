@@ -1,6 +1,9 @@
-from flask import *
+from flask import * # Blueprint
+import json
+from api import app_api
+
 app=Flask(__name__)
-app.config["JSON_AS_ASCII"]=False
+app.config["JSON_AS_ASCII"]=False  # 解決中文亂碼
 app.config["TEMPLATES_AUTO_RELOAD"]=True
 
 # Pages
@@ -17,4 +20,7 @@ def booking():
 def thankyou():
 	return render_template("thankyou.html")
 
+app.register_blueprint(app_api)
+
+# app.debug=True
 app.run(port=3000)
