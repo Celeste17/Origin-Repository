@@ -22,5 +22,7 @@ dbconfig = {
 pool = mysql.connector.pooling.MySQLConnectionPool(
     pool_name = "mypool",
     pool_size = 5,
+    pool_reset_session = True, # 連接 pool 時重置 session variables
+    autocommit = True, 
     **dbconfig
     )

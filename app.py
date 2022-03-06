@@ -22,5 +22,5 @@ def thankyou():
 
 app.register_blueprint(app_api)
 
-# app.debug=True
+# app.debug = True
 app.run(port=3000)

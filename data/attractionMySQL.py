@@ -61,8 +61,10 @@ with open("./data/taipei-attractions.json", encoding='utf-8') as f:
             print("Error")
         finally:
             # 關閉游標與資料庫連線
-            cursor.close()
-            mydb.close()
-        
+            # cursor.close()
+            # mydb.close()
+            if (mydb.is_connected()):
+			    cursor.close()
+			    mydb.close()
 
 

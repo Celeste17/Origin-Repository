@@ -18,7 +18,7 @@ def apiAttractions():
 		mydb = cnx.pool.get_connection()
 		cursor = mydb.cursor() # 開啟游標
 
-		if keyword != None  :
+		if (keyword)  :
 		
 			sql = "SELECT * FROM attraction WHERE name LIKE %s LIMIT %s,%s"
 			nameKeyword = "%" + keyword + "%"
@@ -29,18 +29,23 @@ def apiAttractions():
 			cursor.execute(sqlCount,valCount)
 			count = cursor.fetchone()
 			if count[0] == 0:
-				return jsonify({"error":True, "message":"未搜尋到資料"})
+				return jsonify({"error":True, "message":"查無此關鍵字"})
+				# return jsonify({"nextPage" : None, "data" : []})
 			pageCount = count[0]//12
 			countInPage = countPage(count, pageCount)
 			# 設計 cursor 的 value
+			prepage = str(int(page)-1)
 			if int(page) == 0 :
 				val = (nameKeyword, 0, countInPage[page])
-			elif int(page) > 0 and int(page) <= pageCount:
-				prepage = str(int(page)-1)
-				val = (nameKeyword, countInPage[prepage], countInPage[page])
+			elif int(page) > 0 and int(page) < pageCount:
+				val = (nameKeyword, countInPage[prepage], 12)
+			elif int(page) == pageCount:
+				finalCount = countInPage[page] - countInPage[prepage]
+				val = (nameKeyword, countInPage[prepage], finalCount)
 			else:
-				return jsonify({"error":True, "message":"page頁數錯誤"})
-		else :
+				return jsonify({"error":True, "message":"未搜尋到資料，可查閱其他頁面"})
+				# return jsonify({"nextPage" : None, "data" : []})
+		elif keyword == None :
 			sql = "SELECT * FROM attraction LIMIT %s,%s"
 
 			# 總共筆數
@@ -48,23 +53,29 @@ def apiAttractions():
 			cursor.execute(sqlCount)
 			count = cursor.fetchone()
 			if count[0] == 0:
-				return jsonify({"error":True, "message":"未搜尋到資料"})
+				return jsonify({"error":True, "message":"查無此關鍵字"})
+				# return jsonify({"nextPage" : None, "data" : []})
 			pageCount = count[0]//12
 			countInPage = countPage(count, pageCount)
 			# 設計 cursor 的 value
+			prepage = str(int(page)-1)
 			if int(page) == 0 :
 				val = (0, countInPage[page])
-			elif int(page) > 0 and int(page) <= pageCount:
-				prepage = str(int(page)-1)
-				val = (countInPage[prepage], countInPage[page])
+			elif int(page) > 0 and int(page) < pageCount:
+				val = (countInPage[prepage], 12)
+			elif int(page) == pageCount:
+				finalCount = countInPage[page] - countInPage[prepage]
+				val = (countInPage[prepage], finalCount)
 			else:
-				return jsonify({"error":True, "message":"page頁數錯誤"})
+				return jsonify({"error":True, "message":"未搜尋到資料，可查閱其他頁面"})
+				# return jsonify({"nextPage" : None, "data" : []})
+		else:
+			return jsonify({"error":True, "message":"伺服器內部錯誤"}),500
 
 		# val = (nameKeyword,0,12)
 		# print(val)
 		cursor.execute(sql, val)
 		result = cursor.fetchall()
-		
 		# 將資料存入 data list
 		data = []
 		for i in range(len(result)):
@@ -95,15 +106,18 @@ def apiAttractions():
 			nextPage = int(page)+1
 		else:
 			nextPage = None
+
+		# 輸出	
 		if(data):
 			return jsonify({"nextPage" : nextPage, "data" : data})
 		else:
 			return jsonify({"error":True, "message":"伺服器內部錯誤"}),500
 	except:
-		print("Error")
+		print("Error MySQL")
 	finally:
-		cursor.close()
-		mydb.close()
+		if (mydb.is_connected()):
+			cursor.close()
+			mydb.close()
 
 
 # 計算各頁資料筆數  page=0.val=0-12 / page=1.val=13-24
@@ -121,7 +135,7 @@ def countPage(count, pageCount):
 	return countInPage 
 
 # 根據景點編號取得景點資料
-@app_api.route("/api/attractions/<attractionId>")
+@app_api.route("/api/attraction/<attractionId>")
 def apiAttractions_id(attractionId):
 
 	try:
@@ -136,7 +150,7 @@ def apiAttractions_id(attractionId):
 		# print(result)
 
 		# 將資料存入 data 
-		if(result):
+		if (result):
 			images = result[9].split(" , ")
 			# print("筆數:", len(images))
 			del images[-1]
@@ -152,14 +166,15 @@ def apiAttractions_id(attractionId):
 				"longitude" : result[8],
 				"images" : images
 			}
-		else:
-			dataInfo = None
-	except:
-		print("Error")
-	finally:
-		if (dataInfo):
 			return jsonify({"data" : dataInfo})
-		elif dataInfo == None:
-			return jsonify({"error":True, "message":"景點編號不正確"}),404
+		elif (result == None):
+			dataInfo = None
+			return jsonify({"error":True, "message":"無此景點編號"}),404
 		else:
-			return jsonify({"error":True, "message":"伺服器內部錯誤"}),500
+			return jsonify({"error":True, "message":"伺服器內部錯誤"}),500	
+	except:
+		print("Error MySQL")
+	finally:
+		if (mydb.is_connected()):
+			cursor.close()
+			mydb.close()
