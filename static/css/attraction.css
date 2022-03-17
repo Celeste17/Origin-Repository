@@ -1,0 +1,332 @@
+/*先寫 PC 版型，再依序往下寫響應式設計*/
+.top{
+    display: flex;
+    justify-content: center;
+    padding: 10px 0px;
+    position: sticky;
+    top: 0px;
+    background-color: #fff;
+    z-index:100;
+
+    /* del */
+    /* background-color: pink; */
+}
+.topContent{
+    display: flex;
+    justify-content: space-between;
+    width: 1200PX;
+    align-items: center;
+
+    /* del */
+    /* background-color: #c05fff; */
+}
+.topTitle{
+    font-family: 'Noto Sans TC Bold';
+    font-size: 30px;
+    color: #448899;
+}
+
+.topTitle a{
+    text-decoration: none;
+    color: #448899;
+    white-space: nowrap;
+}
+
+.menu{
+    display: flex;
+
+    /* del */
+    /* background-color: #aff; */
+}
+
+.menu li{
+    margin-left: 20px;
+}
+
+.menu a{
+    text-decoration: none;
+    color: #666;
+    white-space: nowrap;
+}
+
+.header{
+    display: flex;
+    justify-content: center;
+    
+    /* del */
+    /* width: 1200px; */
+    /* justify-content: space-between; */
+}
+
+.headerBG{
+    width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    padding: 37px 0px;
+    border-bottom: 2px #E8E8E8 solid;
+    /* del */
+    /* background-color: rgba(219, 146, 146, 0.8); */
+}
+
+.headerImg{
+    width: 45%;
+    position: relative;
+    height: 360px;
+    /* del */
+    /* background-color: #aa5; */
+}
+
+.btnImgLeft{
+    background: none;
+    border: none;
+    position: absolute;
+    top: 50%;
+    left:10px;
+    opacity: 0.7;
+    border-radius: 50%;
+}
+
+.btnImgRight{
+    background: none;
+    border: none;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    opacity: 0.7;
+    border-radius: 50%;
+}
+
+.btnImgLeft:hover , .btnImgRight:hover{
+    cursor : pointer
+}
+
+.btnImgLeft:active , .btnImgRight:active{
+    opacity: 1;
+}
+
+.headerSlid{
+    max-height: 100%;  
+    max-width: 100%; 
+    /* width: auto;
+    height: auto; */
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+
+.headerImg img{
+    /* object-fit: conver;
+    max-height: 100%;  
+    max-width: 100%;  */
+    /* width: auto;
+    height: auto; */
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
+}
+
+.divDot{
+    
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    margin: 55% auto 5% auto;
+    display: flex;
+    justify-content: center;
+    align-items:flex-end;
+    min-height: 0;
+    /* del */
+    /* background-color: #448899; */
+    /* top:95%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+    /* text-align:center; */
+}
+
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 5px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+  
+.active, .dot:hover {
+    background-color: #717171;
+}
+
+.headerTextAll{
+    width: 50%;
+    color: #666;
+}
+
+.headerTextAll h1{
+    font-size: 24px;
+    font-family: 'Noto Sans TC Bold';
+    margin-bottom: 15px;
+}
+
+.headerSubTitle{
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.headerSubTitle p{
+    margin-right: 5px;
+}
+
+.headerOrder{
+    background-color: #E8E8E8;
+    padding: 15px 20px;
+}
+
+.headerOrder h2{
+    font-family: 'Noto Sans TC Bold';
+    margin-bottom: 15px;
+}
+
+.headerOrder>p{
+    margin-bottom: 20px;
+}
+
+.headerOrder h3{
+    font-family: 'Noto Sans TC Bold';
+    margin-right: 5px;
+}
+
+.headerOrderDate{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.headerOrderTime{
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.headerOrderTime input{
+    width: 20px;
+    height: 20px;
+}
+
+.headerOrderPrice{
+    display: flex;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.btnOrder{
+    background-color: #448899;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 18px;
+    border-radius: 5px;
+    border: none;
+    margin-bottom: 25px;
+}
+
+.btnOrder:hover{
+    cursor : pointer;
+}
+
+.btnOrder:active{
+    background-color: #a3cbd4;
+    /* del */
+    /* color:#fff; */
+}
+
+.middle{
+    display: flex;
+    justify-content: center;
+}
+
+.middleBG{
+    width: 1200px;
+    padding: 50px 0px 100px 0px;
+    /* del */
+    /* background-color: khaki; */
+}
+
+.middleBG h3{
+    font-family: 'Noto Sans TC Bold';
+    line-height: 32px;
+    color: #666;
+}
+
+.middleBG p{
+    line-height: 24px;
+    margin-bottom: 20px;
+    color: #666;
+}
+
+.footer {
+    background-color: #757575;
+    display: flex;
+    justify-content: center;
+}
+
+.footerContent {
+    text-align: center;
+    width: 1200px;
+    padding: 45px 0px;
+    color: #fff;
+
+    /* del */
+    /* background-color: #acb; */
+}
+
+/*在 iPad 直式下變更樣式 --> 斷點*/
+/*在768px 裡面的樣式會被開啟*/
+@media(max-width:900px){
+    
+    .topContent{
+        width: 90%;
+    }
+
+    .headerBG{
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .headerImg{
+        width: 100%;
+        position: relative;
+    }
+    
+    .divDot{
+        margin: 40% auto 5% auto;
+    }
+
+    .headerTextAll{
+        width: 95%;
+    }
+
+    .headerTextAll h1{
+        margin-top: 20px;
+    }
+
+    .middleBG{
+        width: 90%;
+    }
+
+    .footerContent {
+        text-align: center;
+        width: 90%;
+        margin: 40px 0px;
+        padding: 10px 0px;
+    }
+}
+
+/*在 iPhone 直式下變更樣式 --> 斷點*/
+@media(max-width:600px){        
+    .divDot{
+        margin: 60% auto 5% auto;
+    }
+}
