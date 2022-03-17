@@ -7,6 +7,7 @@ let around = false;
 let keyword = "";
 loadImage();
 
+// 搜尋按鈕
 btnSearch.addEventListener("click", function(){
   keyword = inputKeyword.value
   console.log(keyword)
@@ -15,6 +16,7 @@ btnSearch.addEventListener("click", function(){
   loadImage()
 })
 
+// 載入更多
 window.addEventListener("DOMContentLoaded", function() {
   // 選定頁面中 footer
   const footer = document.querySelector(".footer");
@@ -40,7 +42,7 @@ window.addEventListener("DOMContentLoaded", function() {
 })
 
 
-// 載入更多
+// 載入資料
 function loadImage(){
   let url = ""
     if(keyword==""){
@@ -64,13 +66,13 @@ function loadImage(){
       if(myJson["data"]){
          myJson["data"].forEach(function(item,index){
             // console.log(index, item.name, item.category, item.mrt, item.images[0]);
-            showAttraction(item.name, item.category, item.mrt, item.images[0])
+            showAttraction(item.name, item.category, item.mrt, item.images[0], item.id)
         })
       }else{
         // const divPhoto = document.querySelector(".photo");
         const pError = document.createElement("p");
         pError.textContent = myJson["message"]
-        ul.setAttribute("style","padding: 30px")
+        ul.setAttribute("style","display:flex; justify-content: center; padding:30px")
         ul.appendChild(pError);
         around = false;
       }
@@ -80,13 +82,14 @@ function loadImage(){
   }
 
 // 渲染畫面
-function showAttraction(name, category, mrt, picture){
+function showAttraction(name, category, mrt, picture, id){
     const pMRT = document.createElement("p");
     const pCat = document.createElement("p");
     const divP = document.createElement("div");
     const pName = document.createElement("p");
     const divImg = document.createElement("div");
     const li = document.createElement("li");
+    const a = document.createElement("a");
 
     pMRT.textContent = mrt
     pCat.textContent =category
@@ -95,12 +98,17 @@ function showAttraction(name, category, mrt, picture){
     pName.textContent = name
     divImg.setAttribute("class", "adjustPic")
     divImg.setAttribute("style", "background-image: url(" + picture + ");")
-
+    
+    url = "/attraction/"+id
+    a.setAttribute("href", url)
+    a.setAttribute("class","gotoDetail")
     ul.setAttribute("style"," padding-top: 55px; padding-bottom: 25px;")
 
     divP.appendChild(pMRT) && divP.appendChild(pCat);
     li.appendChild(divImg) && li.appendChild(pName) &&li.appendChild(divP);
-    ul.appendChild(li);
+    a.appendChild(li);
+    ul.appendChild(a);
+    // ul.appendChild(li);
     around = false;
 }
 
