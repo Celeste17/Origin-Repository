@@ -46,11 +46,11 @@ window.addEventListener("DOMContentLoaded", function() {
 function loadImage(){
   let url = ""
     if(keyword==""){
-      console.log(page)
+      // console.log(page)
       // url = '/api/attractions?page='+page+'&keyword='+keyword
       url = '/api/attractions?page='+page
     }else{
-      console.log(page)
+      // console.log(page)
       // url = '/api/attractions?page='+page
       url = '/api/attractions?page='+page+'&keyword='+keyword
     }

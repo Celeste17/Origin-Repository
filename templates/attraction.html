@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>台北一日遊</title>
     <link rel="stylesheet" href="../static/css/cssReset.css">
+    <link rel="stylesheet" href="../static/component/nav.css">
     <link rel="stylesheet" href="../static/css/attraction.css">
 </head>
+
 <body>
     <div class="top">
-        <div class="topContent">
+        <!-- <div class="topContent">
             <div class="topTitle">
                 <p><a href="/">台北一日遊</a></p>
             </div>
@@ -20,26 +23,43 @@
                     <li><a href="#">登入/註冊</a></li>
                 </ul>
             </div>
-        </div>
+        </div> -->
     </div>
 
     <div class="header">
         <div class="headerBG">
-            <div class="headerImg">
+            <div class="headerImg" id="allImgs">
+                <div class="allImg">
+                    <!-- <div class="headerSlid">
+                        <img
+                            src="https://www.travel.taipei/d_upload_ttn/sceneadmin/image/a0/b0/c1/d878/e726/f304/2d6e8b50-76ce-4b7e-a795-0357cd6f2b3e.jpg">
+                    </div>
+                    <div class="headerSlid">
+                        <img
+                            src="https://www.travel.taipei/d_upload_ttn/sceneadmin/image/a0/b0/c0/d260/e538/f274/e7d482ba-e3c0-40c3-87ef-3f2a1c93edfa.jpg">
+                    </div>
+                    <div class="headerSlid">
+                        <img
+                            src="https://www.travel.taipei/d_upload_ttn/sceneadmin/image/a0/b0/c0/d14/e810/f21/48d66fbd-1ba3-4efd-837a-3767db5f52e0.jpg">
+                    </div>
+                    <div class="headerSlid">
+                        <img
+                            src="https://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000979.jpg">
+                    </div>
+                    <div class="headerSlid">
+                        <img src="https://www.travel.taipei/d_upload_ttn/sceneadmin/pic/11000723.jpg">
+                    </div> -->
+                </div>
+                <div class="divDot">
+                    <!-- <span class="dot" onclick="currentSlide(0)"></span>
+                    <span class="dot" onclick="currentSlide(1)"></span>
+                    <span class="dot" onclick="currentSlide(2)"></span>
+                    <span class="dot" onclick="currentSlide(3)"></span>
+                    <span class="dot" onclick="currentSlide(4)"></span> -->
+                </div>
                 <button id='prev' class="btnImgLeft" onclick="plusSlides(-1)"><img src="../static/src/btn_leftArrow.png"></button>
                 <button id='next' class="btnImgRight" onclick="plusSlides(1)"><img src="../static/src/btn_rightArrow.png"></button>
-                <!-- <div class = "headerSlid">
-                    <img src="https://www.travel.taipei/d_upload_ttn/sceneadmin/image/a0/b0/c1/d878/e726/f304/2d6e8b50-76ce-4b7e-a795-0357cd6f2b3e.jpg">
-                </div>
-                <div class = "headerSlid">
-                    <img src="https://www.travel.taipei/d_upload_ttn/sceneadmin/image/a0/b0/c0/d260/e538/f274/e7d482ba-e3c0-40c3-87ef-3f2a1c93edfa.jpg">
-                </div> -->
-
-                <div class="divDot">
-                    <!-- <span class="dot" onclick="currentSlide(1)"></span>
-                    <span class="dot" onclick="currentSlide(2)"></span>-->
-                </div>
-                
+            
             </div>
             <div class="headerTextAll">
                 <!-- <h1>景點名稱</h1>
@@ -53,7 +73,7 @@
                     <p>以此景點為中心的一日行程，帶您探索城市角落故事</p>
                     <div class="headerOrderDate">
                         <h3>選擇日期：</h3>
-                        <input type="date" >
+                        <input type="date">
                     </div>
                     <div class="headerOrderTime">
                         <h3>選擇時間：</h3>
@@ -94,5 +114,7 @@
         </div>
     </div>
 </body>
+<script src="../static/component/nav.js"></script>
 <script src="../static/js/attraction.js"></script>
+
 </html>
