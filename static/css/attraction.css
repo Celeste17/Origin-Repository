@@ -1,5 +1,5 @@
 /*先寫 PC 版型，再依序往下寫響應式設計*/
-.top{
+/* .top{
     display: flex;
     justify-content: center;
     padding: 10px 0px;
@@ -7,18 +7,12 @@
     top: 0px;
     background-color: #fff;
     z-index:100;
-
-    /* del */
-    /* background-color: pink; */
 }
 .topContent{
     display: flex;
     justify-content: space-between;
     width: 1200PX;
     align-items: center;
-
-    /* del */
-    /* background-color: #c05fff; */
 }
 .topTitle{
     font-family: 'Noto Sans TC Bold';
@@ -34,9 +28,6 @@
 
 .menu{
     display: flex;
-
-    /* del */
-    /* background-color: #aff; */
 }
 
 .menu li{
@@ -47,7 +38,7 @@
     text-decoration: none;
     color: #666;
     white-space: nowrap;
-}
+} */
 
 .header{
     display: flex;
