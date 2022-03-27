@@ -4,10 +4,10 @@ import json
 import mysql.connector
 import sqlConnection as cnx
 
-app_api = Blueprint('app_api',__name__)
+app_attractionApi = Blueprint('app_attractionApi',__name__)
 
 # 取得景點資料
-@app_api.route("/api/attractions")
+@app_attractionApi.route("/api/attractions")
 def apiAttractions():
 	page = request.args.get("page", "0")
 	keyword = request.args.get("keyword")
@@ -135,7 +135,7 @@ def countPage(count, pageCount):
 	return countInPage 
 
 # 根據景點編號取得景點資料
-@app_api.route("/api/attraction/<attractionId>")
+@app_attractionApi.route("/api/attraction/<attractionId>")
 def apiAttractions_id(attractionId):
 
 	try:

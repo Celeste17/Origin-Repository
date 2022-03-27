@@ -1,5 +1,5 @@
 /*先寫 PC 版型，再依序往下寫響應式設計*/
-.top{
+/* .top{
     display: flex;
     justify-content: center;
     padding: 10px 0px;
@@ -7,18 +7,12 @@
     top: 0px;
     background-color: #fff;
     z-index:100;
-
-    /* del */
-    /* background-color: pink; */
 }
 .topContent{
     display: flex;
     justify-content: space-between;
     width: 1200PX;
     align-items: center;
-
-    /* del */
-    /* background-color: #c05fff; */
 }
 .topTitle{
     font-family: 'Noto Sans TC Bold';
@@ -34,9 +28,6 @@
 
 .menu{
     display: flex;
-
-    /* del */
-    /* background-color: #aff; */
 }
 
 .menu li{
@@ -47,7 +38,7 @@
     text-decoration: none;
     color: #666;
     white-space: nowrap;
-}
+} */
 
 .header{
     display: flex;
@@ -73,7 +64,8 @@
     position: relative;
     height: 360px;
     /* del */
-    /* background-color: #aa5; */
+    /* background-color: #aa5;
+    cursor: url("https://cdn-icons-png.flaticon.com/128/16/16427.png"),auto; */
 }
 
 .btnImgLeft{
@@ -102,6 +94,16 @@
 
 .btnImgLeft:active , .btnImgRight:active{
     opacity: 1;
+}
+
+.allImg{
+    max-height: 100%;  
+    max-width: 100%; 
+    /* width: auto;
+    height: auto; */
+    width: 100%;
+    height: 100%;
+    object-fit:cover;
 }
 
 .headerSlid{
@@ -157,7 +159,7 @@
 }
   
 .active, .dot:hover {
-    background-color: #717171;
+    background-color: #448899 /*pink  #717171; */
 }
 
 .headerTextAll{
