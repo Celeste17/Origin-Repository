@@ -68,7 +68,7 @@ def apiUser():
 			elif (logInMember!=None):
 				# print(logInMember)
 			
-				session["userMail"] = logInMember[2]
+				session["userID"] = logInMember[0]
 				responses = jsonify({"ok": True})				
 			else:
 				responses = jsonify({"error": True,"message": "伺服器內部錯誤"})
@@ -83,15 +83,15 @@ def apiUser():
 				
 		return responses
 	elif request.method == 'GET': # 取得當前登入的使用者資訊
-		if session.get('userMail'):
-			emailGet = session.get('userMail')
+		if session.get('userID'):
+			userIdGet = session.get('userID')
 
 			try:
 				# 連接 MySQL POOL 資料庫
 				mydb = cnx.pool.get_connection()
 				cursor = mydb.cursor() # 開啟游標
-				sql = "SELECT * FROM member WHERE email = %s;"
-				val = (emailGet, )
+				sql = "SELECT * FROM member WHERE id = %s;"
+				val = (userIdGet, )
 				cursor.execute(sql,val)
 				logInMember = cursor.fetchone()
 				# print(cursor.rowcount)
@@ -111,8 +111,8 @@ def apiUser():
 		
 
 	elif request.method == 'DELETE': # 登出使用者帳戶
-		session["userMail"] = False
-		if session.get('userMail'):
+		session["userID"] = False
+		if session.get('userID'):
 			responses = jsonify({"error": True, "message": "未成功登出"})
 		else:
 			responses = jsonify({"ok": True})

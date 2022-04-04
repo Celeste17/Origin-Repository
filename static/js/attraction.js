@@ -12,20 +12,31 @@ const dot = document.querySelector(".dot");
 // adjustSlides(slideIndex);
 let timer = window.setInterval(showSlides, 4000);
 
-
-
 // 時段選擇
+const inputOrderDate = document.getElementById("inputOrderDate");
 const timeAM = document.getElementById("timeAM");
 const timePM = document.getElementById("timePM");
 const price = document.querySelector(".price");
+let orderDepTime = "morning";
+
+let today = new Date(), d=today.getDate(), m=today.getMonth()+1, y=today.getFullYear(),todayDate;
+if(d < 10) d="0"+d;
+if(m < 10) m="0"+m;
+todayDate = y+"-"+m+"-"+d;
+
+inputOrderDate.value = todayDate;
+inputOrderDate.setAttribute("min",todayDate);
+
 timeAM.addEventListener("click", function () {
   if (timeAM.checked) {
     price.textContent = "2000";
+    orderDepTime = "morning";
   }
 });
 timePM.addEventListener("click", function () {
   if (timePM.checked) {
     price.textContent = "2500";
+    orderDepTime = "afternoon";
   }
 });
 rdbOrderTime()
@@ -40,6 +51,78 @@ function rdbOrderTime() {
   } else {
     price.textContent = "- - -"
   }
+}
+
+// 點擊開始預訂行程按鈕
+const btnOrder = document.querySelector(".btnOrder");
+checkUser();
+
+// 檢查是否有登入 & 監聽「開始預訂行程」按鈕
+function checkUser() {
+  let url = "/api/user"
+  fetch(url)
+    .then(response => response.json())
+    .then(function (result) {
+      if(result["data"]!=null){
+        // console.log("有登入")
+        btnOrder.addEventListener("click", function(){
+          btnOrder.setAttribute("href", "/booking");
+          // console.log(window.location.pathname.split( '/' )[2]);
+          // console.log(inputOrderDate.value);
+          // console.log(orderDepTime);
+          // console.log(price.innerText);
+          // data = {
+          //   "attractionId": Number(window.location.pathname.split( '/' )[2]),
+          //   "date": inputOrderDate.value,
+          //   "time": orderDepTime,
+          //   "price": Number(price.innerText)
+          // }
+          // console.log(data);
+
+          let url = "/api/booking"
+          fetch(url, {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                  'attractionId': `${Number(window.location.pathname.split( '/' )[2])}`,
+                  'date': `${inputOrderDate.value}`,
+                  'time': `${orderDepTime}`,
+                  'price': `${Number(price.innerText)}`
+              })
+          })
+          .then(response => response.json())
+          .then(function (result) {
+              // console.log(result)
+              if(result["ok"]){
+                window.location='/booking';
+              }else if(result["error"]){
+                console.log(result)
+                divDialogReactIn.textContent = result["message"];
+                divDialogReactIn.style.display = "flex";
+                divDialogReactIn.style.color = "red";
+                divDialog.insertBefore(divDialogReactIn, divChangeDialogSignIn)
+              }
+              
+          })
+
+          // window.location='/booking';
+        })
+      }else{
+        // console.log("沒有登入")
+        btnOrder.addEventListener("click", function(){
+              divDialogBG.style.display = "block";
+              divDialog.style.display = "block";
+              divDialogSignInputIn.style.display = "block";
+              divChangeDialogSignIn.style.display = "flex";
+              divDialogSignInput.style.display = "none";
+              divChangeDialogSign.style.display = "none";
+              divDialogReact.style.display = "none";
+              divDialogReactIn.style.display = "none";
+          })
+      }
+    });
 }
 
 // 載入資料
@@ -61,6 +144,8 @@ function loadAttraction(id) {
       let attImgs = myJson["data"]["images"]
       showAttractionDetail(attImgs, attName, attCate, attMrt, attPic, attDescri, attAddr, attTrans)
 
+    }).catch(function() {
+      window.location.replace('/');
     });
 }
 
