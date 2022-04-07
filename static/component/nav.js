@@ -22,13 +22,11 @@ ulTopMenu.setAttribute("class", "menu");
 
 const liTopMenuBook = document.createElement("li");
 const aTopMenuBook = document.createElement("a");
-// aTopMenuBook.setAttribute("href", "#");
 aTopMenuBook.textContent = "預定行程";
 liTopMenuBook.appendChild(aTopMenuBook);
 const liTopMenuSign = document.createElement("li");
 const aTopMenuSign = document.createElement("a");
-// aTopMenuSign.setAttribute("href", "#");
-aTopMenuSign.textContent = "登入/註冊";
+aTopMenuSign.textContent = "--------";
 liTopMenuSign.appendChild(aTopMenuSign);
 
 ulTopMenu.appendChild(liTopMenuBook) && ulTopMenu.appendChild(liTopMenuSign);
@@ -38,11 +36,6 @@ divTopContent.appendChild(divTopTitle) && divTopContent.appendChild(divTopMenu);
 divTop.appendChild(divTopContent);
 
 const body = document.body;
-
-// 預定行程
-liTopMenuBook.addEventListener("click", function(){
-    console.log("a預定行程")
-})
 
 // 登入/註冊跳窗
 const divDialogBG = document.createElement("div");
@@ -174,6 +167,11 @@ body.appendChild(divDialogBG);
 //    divDialogReactIn.style.display = "none";
 // })
 
+// 預定行程
+// liTopMenuBook.addEventListener("click", function(){
+//     console.log("a預定行程")
+// })
+
 // 登入 -> 註冊
 aChangeDialogSignIn.addEventListener("click",function(){
     // 顯示註冊畫面 & 隱藏登入畫面
@@ -216,10 +214,30 @@ function checkUser() {
                 .then(response => response.json())
                 .then(function (result) {
                     console.log(result)
-                    refresh();
+                    if (window.location.pathname == "/booking"){
+                        window.location.replace('/');
+                    }else{
+                        refresh();
+                    }
                 })
             })
+            liTopMenuBook.addEventListener("click", function(){
+                aTopMenuBook.setAttribute("href", "/booking");
+            })
         }else{
+            if (window.location.pathname == "/booking"){
+                window.location.replace('/');
+            }
+            liTopMenuBook.addEventListener("click", function(){
+                divDialogBG.style.display = "block";
+                divDialog.style.display = "block";
+                divDialogSignInputIn.style.display = "block";
+                divChangeDialogSignIn.style.display = "flex";
+                divDialogSignInput.style.display = "none";
+                divChangeDialogSign.style.display = "none";
+                divDialogReact.style.display = "none";
+                divDialogReactIn.style.display = "none";
+            })
             aTopMenuSign.textContent = "登入/註冊";
             liTopMenuSign.addEventListener("click", function(){
                 divDialogBG.style.display = "block";
@@ -310,7 +328,8 @@ btnDialogSign.addEventListener("click", function(){
 
 // 重新載入頁面
 function refresh(){
-    window.location.reload();
+    // window.location.reload();
+    window.location.replace(window.location.pathname);
 }
 
 // 清除 input 以及 執行訊息
