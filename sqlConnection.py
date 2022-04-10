@@ -16,7 +16,7 @@ dbconfig = {
     "host" : "127.0.0.1",
     "database" : "we_travel",
     "user" : "root",
-    "password" : "0117"
+    "password" : ""
 }
 
 pool = mysql.connector.pooling.MySQLConnectionPool(
