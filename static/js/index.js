@@ -24,7 +24,7 @@ window.addEventListener("DOMContentLoaded", function() {
   const footerHeight = function() {
     const {top, bottom} = footer.getBoundingClientRect();
     heightToBottom = window.innerHeight-top;
-    console.log(top+" , "+bottom+" , "+window.innerHeight)
+    // console.log(top+" , "+bottom+" , "+window.innerHeight)
     // 設定footer高度
     footer.style.height = heightToBottom+"px";
   }

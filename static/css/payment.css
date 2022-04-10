@@ -1,0 +1,20 @@
+.tpfield{
+    height: 30px;
+    width: 300px;
+    
+    margin: 5px 0;
+    padding: 5px;
+
+    margin-top: 15px;
+    border: 1px #E8E8E8 solid;
+
+    /* background-color: rgb(170, 135, 135); */
+}
+
+/* Bootstrap 的 focus style */
+/* .tappay-field-focus {
+    border-color: #66afe9;
+    outline: 0;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+} */
