@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="../static/css/cssReset.css">
     <link rel="stylesheet" href="../static/component/nav.css">
     <link rel="stylesheet" href="../static/css/booking.css">
+    <link rel="stylesheet" href="../static/css/payment.css">
+    <script src="https://js.tappaysdk.com/tpdirect/v5.8.0"></script>
 </head>
 
 <body>
@@ -89,14 +91,17 @@
             <div class="middleInfoData">
                 <h3>卡片號碼：</h3>
                 <input placeholder="**** **** **** ****">
+                <div class="tpfield" id="card-number"></div>
             </div>
             <div class="middleInfoData">
                 <h3>過期時間：</h3>
                 <input placeholder="MM/YY">
+                <div class="tpfield" id="card-expiration-date"></div>
             </div>
             <div class="middleInfoData">
                 <h3>驗證密碼：</h3>
                 <input placeholder="CVV">
+                <div class="tpfield" id="card-ccv"></div>
             </div>
         </div> -->
     </div>
@@ -116,6 +121,8 @@
 </body>
 
 <script src="../static/component/nav.js"></script>
+<script src="../static/js/payment.js"></script>
 <script src="../static/js/booking.js"></script>
+
 
 </html>

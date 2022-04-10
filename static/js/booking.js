@@ -11,45 +11,54 @@ function checkUser() {
       if (result["data"] != null) {
         // console.log(result["data"]["name"])
         randerName(result["data"]["name"]);
-        checkBooking();
+        checkBooking(result["data"]);
       } else {
       }
     });
 }
 
 // 檢查是否有預定行程記錄
-function checkBooking() {
+function checkBooking(userData) {
   let url = "/api/booking"
   fetch(url)
     .then(response => response.json())
     .then(function (result) {
       if (result["data"] != null) {
         // console.log(result["data"]);
-        randerContant(result["data"]);
+        randerContant(result["data"], userData);
+        randerPayment();
+        tapPay();
         const footer = document.querySelector(".footer");
         footer.style.height = "";
 
         const btnDelete = document.querySelector(".btnDelete");
         btnDelete.addEventListener("click", function () {
-
-          fetch(url, {
-            method: 'DELETE',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          })
-          .then(response => response.json())
-          .then(function (result) {
-            console.log(result)
-            window.location.reload();
-          })
-
+          deleteBooking();
         })
+
+        // 點擊送出
+        const btnConfirm = document.querySelector(".btnConfirm");
+        btnConfirm.addEventListener("click",onSubmit);
       } else {
-        console.log(result["data"]);
+        // console.log(result["data"]);
         randerContantNull();
       }
     });
+}
+
+function deleteBooking() {
+  let url = "/api/booking"
+  fetch(url, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(response => response.json())
+    .then(function (result) {
+      // console.log(result)
+      window.location.reload();
+    })
 }
 
 function randerName(username) {
@@ -58,8 +67,8 @@ function randerName(username) {
   headerMain.appendChild(h2Name);
 }
 
-function randerContant(data) {
-  console.log(data);
+function randerContant(data, userData) {
+  // console.log(data);
   // header
   const divHeaderContent = document.createElement("div");
   divHeaderContent.setAttribute("class", "headerContent");
@@ -69,17 +78,20 @@ function randerContant(data) {
   const imgheaderContentMain = document.createElement("img");
   imgheaderContentMain.setAttribute("class", "imgheaderContentMain");
   imgheaderContentMain.setAttribute("src", data["attraction"]["image"]);
+  imgheaderContentMain.setAttribute("alt", "景點圖片："+data["attraction"]["id"]);
   divHeaderContentMain.appendChild(imgheaderContentMain);
 
-  const divHeaderInfo = document.createElement("div");
+    const divHeaderInfo = document.createElement("div");
   divHeaderInfo.setAttribute("class", "headerInfo");
   const h1HeaderInfo = document.createElement("h1");
-  h1HeaderInfo.textContent = "台北一日遊：景點名稱";
+  h1HeaderInfo.setAttribute("class", "info-name");
+  h1HeaderInfo.textContent = "台北一日遊："+ data["attraction"]["name"];
 
   const divHeaderInfoData1 = document.createElement("div");
   divHeaderInfoData1.setAttribute("class", "headerInfoData");
   const h3HeaderInfoData1 = document.createElement("h3");
   const pHeaderInfoData1 = document.createElement("p");
+  pHeaderInfoData1.setAttribute("class", "info-date");
   h3HeaderInfoData1.textContent = "日期：";
   pHeaderInfoData1.textContent = data["date"];
   divHeaderInfoData1.appendChild(h3HeaderInfoData1) && divHeaderInfoData1.appendChild(pHeaderInfoData1);
@@ -88,6 +100,7 @@ function randerContant(data) {
   divHeaderInfoData2.setAttribute("class", "headerInfoData");
   const h3HeaderInfoData2 = document.createElement("h3");
   const pHeaderInfoData2 = document.createElement("p");
+  pHeaderInfoData2.setAttribute("class", "info-time");
   h3HeaderInfoData2.textContent = "時間：";
   if (data["time"] == "morning") pHeaderInfoData2.textContent = "早上9點至中午12點";
   else if (data["time"] == "afternoon") pHeaderInfoData2.textContent = "下午1點至下午4點";
@@ -97,6 +110,7 @@ function randerContant(data) {
   divHeaderInfoData3.setAttribute("class", "headerInfoData");
   const h3HeaderInfoData3 = document.createElement("h3");
   const pHeaderInfoData3 = document.createElement("p");
+  pHeaderInfoData3.setAttribute("class", "info-price");
   h3HeaderInfoData3.textContent = "費用：";
   pHeaderInfoData3.textContent = data["price"];
   divHeaderInfoData3.appendChild(h3HeaderInfoData3) && divHeaderInfoData3.appendChild(pHeaderInfoData3);
@@ -105,6 +119,7 @@ function randerContant(data) {
   divHeaderInfoData4.setAttribute("class", "headerInfoData");
   const h3HeaderInfoData4 = document.createElement("h3");
   const pHeaderInfoData4 = document.createElement("p");
+  pHeaderInfoData4.setAttribute("class", "info-address");
   h3HeaderInfoData4.textContent = "地點：";
   pHeaderInfoData4.textContent = data["attraction"]["address"];
   divHeaderInfoData4.appendChild(h3HeaderInfoData4) && divHeaderInfoData4.appendChild(pHeaderInfoData4);
@@ -135,6 +150,8 @@ function randerContant(data) {
   divMiddleInfoDataA1.setAttribute("class", "middleInfoData")
   const h3MiddleInfoDataA1 = document.createElement("h3");
   const inputMiddleInfoDataA1 = document.createElement("input");
+  inputMiddleInfoDataA1.setAttribute("class", "contact-name");
+  inputMiddleInfoDataA1.setAttribute("value", userData["name"]);
   h3MiddleInfoDataA1.textContent = "聯絡姓名：";
   divMiddleInfoDataA1.appendChild(h3MiddleInfoDataA1) && divMiddleInfoDataA1.appendChild(inputMiddleInfoDataA1);
 
@@ -142,6 +159,8 @@ function randerContant(data) {
   divMiddleInfoDataA2.setAttribute("class", "middleInfoData")
   const h3MiddleInfoDataA2 = document.createElement("h3");
   const inputMiddleInfoDataA2 = document.createElement("input");
+  inputMiddleInfoDataA2.setAttribute("class", "contact-mail");
+  inputMiddleInfoDataA2.setAttribute("value", userData["email"]);
   h3MiddleInfoDataA2.textContent = "聯絡信箱：";
   divMiddleInfoDataA2.appendChild(h3MiddleInfoDataA2) && divMiddleInfoDataA2.appendChild(inputMiddleInfoDataA2);
 
@@ -149,6 +168,7 @@ function randerContant(data) {
   divMiddleInfoDataA3.setAttribute("class", "middleInfoData")
   const h3MiddleInfoDataA3 = document.createElement("h3");
   const inputMiddleInfoDataA3 = document.createElement("input");
+  inputMiddleInfoDataA3.setAttribute("class", "contact-phone");
   h3MiddleInfoDataA3.textContent = "手機號碼：";
   divMiddleInfoDataA3.appendChild(h3MiddleInfoDataA3) && divMiddleInfoDataA3.appendChild(inputMiddleInfoDataA3);
 
@@ -163,28 +183,34 @@ function randerContant(data) {
   h2Middle_B.textContent = "信用卡付款資訊";
 
   const divMiddleInfoDataB1 = document.createElement("div")
-  divMiddleInfoDataB1.setAttribute("class", "middleInfoData")
+  // divMiddleInfoDataB1.setAttribute("class", "middleInfoData1");
+  divMiddleInfoDataB1.classList.add('middleInfoData');
+  divMiddleInfoDataB1.classList.add('tpCard');
   const h3MiddleInfoDataB1 = document.createElement("h3");
-  const inputMiddleInfoDataB1 = document.createElement("input");
+  //const inputMiddleInfoDataB1 = document.createElement("input");
   h3MiddleInfoDataB1.textContent = "卡片號碼：";
-  inputMiddleInfoDataB1.setAttribute("placeholder", "**** **** **** ****");
-  divMiddleInfoDataB1.appendChild(h3MiddleInfoDataB1) && divMiddleInfoDataB1.appendChild(inputMiddleInfoDataB1);
+  //inputMiddleInfoDataB1.setAttribute("placeholder", "**** **** **** ****");
+  divMiddleInfoDataB1.appendChild(h3MiddleInfoDataB1); // && divMiddleInfoDataB1.appendChild(inputMiddleInfoDataB1);
 
   const divMiddleInfoDataB2 = document.createElement("div");
-  divMiddleInfoDataB2.setAttribute("class", "middleInfoData")
+  // divMiddleInfoDataB2.setAttribute("class", "middleInfoData2");
+  divMiddleInfoDataB2.classList.add('middleInfoData');
+  divMiddleInfoDataB2.classList.add('tpDate');
   const h3MiddleInfoDataB2 = document.createElement("h3");
-  const inputMiddleInfoDataB2 = document.createElement("input");
+  //const inputMiddleInfoDataB2 = document.createElement("input");
   h3MiddleInfoDataB2.textContent = "過期時間：";
-  inputMiddleInfoDataB2.setAttribute("placeholder", "MM/YY");
-  divMiddleInfoDataB2.appendChild(h3MiddleInfoDataB2) && divMiddleInfoDataB2.appendChild(inputMiddleInfoDataB2);
+  //inputMiddleInfoDataB2.setAttribute("placeholder", "MM/YY");
+  divMiddleInfoDataB2.appendChild(h3MiddleInfoDataB2); // && divMiddleInfoDataB2.appendChild(inputMiddleInfoDataB2);
 
   const divMiddleInfoDataB3 = document.createElement("div");
-  divMiddleInfoDataB3.setAttribute("class", "middleInfoData")
+  // divMiddleInfoDataB3.setAttribute("class", "middleInfoData3");
+  divMiddleInfoDataB3.classList.add('middleInfoData');
+  divMiddleInfoDataB3.classList.add('tpCvv');
   const h3MiddleInfoDataB3 = document.createElement("h3");
-  const inputMiddleInfoDataB3 = document.createElement("input");
+  //const inputMiddleInfoDataB3 = document.createElement("input");
   h3MiddleInfoDataB3.textContent = "驗證密碼：";
-  inputMiddleInfoDataB3.setAttribute("placeholder", "CVV");
-  divMiddleInfoDataB3.appendChild(h3MiddleInfoDataB3) && divMiddleInfoDataB3.appendChild(inputMiddleInfoDataB3);
+  //inputMiddleInfoDataB3.setAttribute("placeholder", "CVV");
+  divMiddleInfoDataB3.appendChild(h3MiddleInfoDataB3); // && divMiddleInfoDataB3.appendChild(inputMiddleInfoDataB3);
 
   divMiddleBG_B.appendChild(h2Middle_B) && divMiddleBG_B.appendChild(divMiddleInfoDataB1) && divMiddleBG_B.appendChild(divMiddleInfoDataB2) && divMiddleBG_B.appendChild(divMiddleInfoDataB3);
   divMiddleB.appendChild(divMiddleBG_B);
@@ -196,6 +222,7 @@ function randerContant(data) {
   const pConfirmPrice = document.createElement("p");
   pConfirmPrice.textContent = "總價：新台幣" + data["price"] + "元";
   const btnConfirm = document.createElement("button");
+  btnConfirm.setAttribute("class","btnConfirm");
   btnConfirm.textContent = "確認訂購並付款";
 
   divConfirmBG.appendChild(pConfirmPrice) && divConfirmBG.appendChild(btnConfirm);
