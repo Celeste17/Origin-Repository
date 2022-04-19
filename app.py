@@ -3,6 +3,7 @@ import json
 from api.attractionApi import app_attractionApi
 from api.userApi import app_userApi
 from api.bookingApi import app_bookingApi
+from api.orderApi import app_orderApi
 
 app=Flask(__name__)
 app.config["JSON_AS_ASCII"]=False  # 解決中文亂碼
@@ -27,6 +28,7 @@ def thankyou():
 app.register_blueprint(app_attractionApi)
 app.register_blueprint(app_userApi)
 app.register_blueprint(app_bookingApi)
+app.register_blueprint(app_orderApi)
 
 app.run(port=3000, debug=True)
 # app.run(host='0.0.0.0', port=3000)
